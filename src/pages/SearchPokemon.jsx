@@ -49,9 +49,11 @@ function SearchPokemon() {
       return;
     }
 
-    const filtered = allPokemons.filter((pokemon) =>
-      pokemon.name.toLowerCase().includes(term.toLowerCase())
-    );
+    const filtered = allPokemons
+      .filter((pokemon) =>
+        pokemon.name.toLowerCase().includes(term.toLowerCase())
+      )
+      .sort((a, b) => a.name.localeCompare(b.name)); // Sort alphabetically
 
     setFilteredPokemons(filtered);
   };
@@ -106,13 +108,35 @@ function SearchPokemon() {
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
     fontFamily: "'Press Start 2P', sans-serif",
     zIndex: 10,
+    maxWidth: "90%", // Ensures it fits on mobile screens
+    wordBreak: "break-word",
+  };
+
+  const closeButtonStyle = {
+    position: "absolute",
+    top: "5px",
+    right: "10px",
+    background: "transparent",
+    color: "#fff",
+    border: "none",
+    fontSize: "16px",
+    fontWeight: "bold",
+    cursor: "pointer",
   };
 
   return (
     <div style={pageStyle}>
-      <div style={messageStyle}>
-        Click on a Pokémon for info!
-      </div>
+      {showMessage && (
+        <div style={messageStyle}>
+          <button
+            style={closeButtonStyle}
+            onClick={() => setShowMessage(false)}
+          >
+            &times;
+          </button>
+          Click on a Pokémon for info!
+        </div>
+      )}
 
       <h1 style={{ textAlign: "center", fontWeight: "bold" }}>Search Pokémon</h1>
       <div style={{ textAlign: "center", marginBottom: "20px" }}>
