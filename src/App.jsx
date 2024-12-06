@@ -10,6 +10,8 @@ import {
 import Header from "./components/Header";
 import Home from "./pages/Home";
 import Pokemons from "./pages/Pokemons";
+import SearchPokemon from "./pages/SearchPokemon";
+import PokemonCard from "./components/PokemonCard";
 
  
 const Layout = () => (
@@ -46,11 +48,9 @@ function App() {
     createRoutesFromElements(
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
-        <Route path="pokemons" element={<Pokemons pokemons={pokemons}/>} />
-
-
-        
-
+        <Route path="pokemons" element={<Pokemons pokemons={pokemons} />} />
+        <Route path="search" element={<SearchPokemon />} />
+        <Route path="pokemon/:id" element={<PokemonCard />} />
       </Route>
     )
   );

@@ -49,64 +49,96 @@ function Pokemon({ pokemons }) {
 
   const listStyle = {
     display: "flex",
-    flexWrap: "wrap",
+    flexWrap: "wrap", // Sikrer, at kortene tilpasses mobilskærme
     gap: "20px",
     justifyContent: "center",
     padding: 0,
     listStyleType: "none",
   };
 
+  const renderPokemonCard = (pokemon) => {
+    const sprites = pokemon.sprites || {};
+    const other = sprites.other || {};
+    const showdown = other.showdown || {};
+
+    return (
+      <li key={pokemon.id} style={boxStyle}>
+        <h2>{pokemon.name.toUpperCase()}</h2>
+        <div style={imageContainerStyle}>
+          <div style={imageWrapperStyle}>
+            {showdown.front_default ? (
+              <img
+                src={showdown.front_default}
+                alt={`${pokemon.name} Front Normal`}
+                style={imageStyle}
+              />
+            ) : (
+              <div style={{ ...imageStyle, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                No Image
+              </div>
+            )}
+            <span style={labelStyle}>Front (Normal)</span>
+          </div>
+          <div style={imageWrapperStyle}>
+            {showdown.front_shiny ? (
+              <img
+                src={showdown.front_shiny}
+                alt={`${pokemon.name} Front Shiny`}
+                style={imageStyle}
+              />
+            ) : (
+              <div style={{ ...imageStyle, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                No Image
+              </div>
+            )}
+            <span style={labelStyle}>Front (Shiny)</span>
+          </div>
+          <div style={imageWrapperStyle}>
+            {showdown.back_default ? (
+              <img
+                src={showdown.back_default}
+                alt={`${pokemon.name} Back Normal`}
+                style={imageStyle}
+              />
+            ) : (
+              <div style={{ ...imageStyle, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                No Image
+              </div>
+            )}
+            <span style={labelStyle}>Back (Normal)</span>
+          </div>
+          <div style={imageWrapperStyle}>
+            {showdown.back_shiny ? (
+              <img
+                src={showdown.back_shiny}
+                alt={`${pokemon.name} Back Shiny`}
+                style={imageStyle}
+              />
+            ) : (
+              <div style={{ ...imageStyle, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                No Image
+              </div>
+            )}
+            <span style={labelStyle}>Back (Shiny)</span>
+          </div>
+        </div>
+        <p>
+          <strong>Height:</strong> {pokemon.height} | <strong>Weight:</strong>{" "}
+          {pokemon.weight}
+        </p>
+        <p>
+          <strong>Types:</strong>{" "}
+          {pokemon.types.map((type) => type.name).join(", ")}
+        </p>
+      </li>
+    );
+  };
+
   return (
     <div style={pageStyle}>
       <h1 style={{ textAlign: "center", fontWeight: "bold" }}>Pokémon List</h1>
       <ul style={listStyle}>
-        {pokemons.map((pokemon) => (
-          <li key={pokemon.id} style={boxStyle}>
-            <h2>{pokemon.name.toUpperCase()}</h2> {/* Convert name to uppercase */}
-            <div style={imageContainerStyle}>
-              <div style={imageWrapperStyle}>
-                <img
-                  src={pokemon.sprites.other.showdown.front_default}
-                  alt={`${pokemon.name} Front Normal`}
-                  style={imageStyle}
-                />
-                <span style={labelStyle}>Front (Normal)</span>
-              </div>
-              <div style={imageWrapperStyle}>
-                <img
-                  src={pokemon.sprites.other.showdown.front_shiny}
-                  alt={`${pokemon.name} Front Shiny`}
-                  style={imageStyle}
-                />
-                <span style={labelStyle}>Front (Shiny)</span>
-              </div>
-              <div style={imageWrapperStyle}>
-                <img
-                  src={pokemon.sprites.other.showdown.back_default}
-                  alt={`${pokemon.name} Back Normal`}
-                  style={imageStyle}
-                />
-                <span style={labelStyle}>Back (Normal)</span>
-              </div>
-              <div style={imageWrapperStyle}>
-                <img
-                  src={pokemon.sprites.other.showdown.back_shiny}
-                  alt={`${pokemon.name} Back Shiny`}
-                  style={imageStyle}
-                />
-                <span style={labelStyle}>Back (Shiny)</span>
-              </div>
-            </div>
-            <p>
-              <strong>Height:</strong> {pokemon.height} | <strong>Weight:</strong>{" "}
-              {pokemon.weight}
-            </p>
-            <p>
-              <strong>Types:</strong>{" "}
-              {pokemon.types.map((type) => type.name).join(", ")}
-            </p>
-          </li>
-        ))}
+        {pokemons.map((pokemon) => renderPokemonCard(pokemon))}
       </ul>
     </div>
   );

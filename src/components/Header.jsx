@@ -44,9 +44,11 @@ const Header = () => {
           Home
         </NavLink>
         <NavLink to="/pokemons">Pokémons</NavLink>
+        <NavLink to="/search">Search Pokémon</NavLink>
       </NavLinks>
     </Nav>
   );
 };
 
 export default Header;
+
