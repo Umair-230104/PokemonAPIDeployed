@@ -7,6 +7,7 @@ function SearchPokemon() {
   const [filteredPokemons, setFilteredPokemons] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [showMessage, setShowMessage] = useState(false);
 
   const location = useLocation();
 
@@ -32,6 +33,13 @@ function SearchPokemon() {
       .finally(() => setIsLoading(false));
   }, []);
 
+  // Trigger message slide-in
+  useEffect(() => {
+    setTimeout(() => {
+      setShowMessage(true);
+    }, 500); // Start sliding in after 500ms
+  }, []);
+
   const handleInputChange = (e) => {
     const term = e.target.value;
     setSearchTerm(term);
@@ -54,6 +62,7 @@ function SearchPokemon() {
     minHeight: "100vh",
     padding: "20px",
     fontFamily: "'Press Start 2P', sans-serif",
+    position: "relative", // Ensures the message is positioned correctly
   };
 
   const boxStyle = {
@@ -85,8 +94,26 @@ function SearchPokemon() {
     backgroundColor: "#fff",
   };
 
+  const messageStyle = {
+    position: "absolute",
+    top: "80px",
+    right: showMessage ? "20px" : "-300px", // Slide-in animation
+    transition: "right 0.5s ease-in-out", // Smooth slide animation
+    backgroundColor: "#cc0000",
+    color: "#fff",
+    padding: "15px 20px",
+    borderRadius: "10px",
+    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+    fontFamily: "'Press Start 2P', sans-serif",
+    zIndex: 10,
+  };
+
   return (
     <div style={pageStyle}>
+      <div style={messageStyle}>
+        Click on a Pokémon for info!
+      </div>
+
       <h1 style={{ textAlign: "center", fontWeight: "bold" }}>Search Pokémon</h1>
       <div style={{ textAlign: "center", marginBottom: "20px" }}>
         <input
